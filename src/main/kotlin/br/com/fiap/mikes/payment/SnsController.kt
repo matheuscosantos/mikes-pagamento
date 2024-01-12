@@ -1,4 +1,4 @@
-package com.mikes.app.payment
+package br.com.fiap.mikes.payment
 
 import com.amazonaws.services.sns.AmazonSNS
 import com.amazonaws.services.sns.model.PublishRequest

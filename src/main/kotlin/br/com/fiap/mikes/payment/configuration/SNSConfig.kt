@@ -1,4 +1,4 @@
-package com.mikes.app.payment.configuration
+package br.com.fiap.mikes.payment.configuration
 
 import com.amazonaws.auth.AWSStaticCredentialsProvider
 import com.amazonaws.auth.BasicAWSCredentials
