@@ -8,7 +8,7 @@ plugins {
 	kotlin("plugin.jpa") version "1.8.22"
 }
 
-group = "com.mikes.app"
+group = "br.com.fiap.mikes"
 version = "0.0.1-SNAPSHOT"
 
 java {

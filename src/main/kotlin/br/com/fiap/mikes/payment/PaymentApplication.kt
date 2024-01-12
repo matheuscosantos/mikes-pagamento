@@ -1,4 +1,4 @@
-package com.mikes.app.payment
+package br.com.fiap.mikes.payment
 
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication

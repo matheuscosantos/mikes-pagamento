@@ -1,4 +1,4 @@
-package com.mikes.app.payment
+package br.com.fiap.mikes.payment
 
 import io.awspring.cloud.sqs.annotation.SqsListener
 import org.springframework.beans.factory.annotation.Value

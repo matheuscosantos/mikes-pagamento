@@ -1,4 +1,4 @@
-package com.mikes.app.payment
+package br.com.fiap.mikes.payment
 
 import org.junit.jupiter.api.Test
 import org.springframework.boot.test.context.SpringBootTest
