@@ -23,6 +23,6 @@
 hs_err_pid*
 replay_pid*
 /.idea/
-/app/pagamento/gradle/wrapper/
-/app/pagamento/gradlew
-/app/pagamento/gradlew.bat
+*.lock
+*.bin
+.gradle/buildOutputCleanup/cache.properties
