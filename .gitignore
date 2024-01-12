@@ -26,6 +26,5 @@ replay_pid*
 *.lock
 *.bin
 .gradle/buildOutputCleanup/cache.properties
-.gradle/7.6.1/dependencies-accessors/gc.properties
-.gradle/7.6.1/gc.properties
-.gradle/vcs-1/gc.properties
+.gradle/7.6.1
+.gradle/vcs-1
