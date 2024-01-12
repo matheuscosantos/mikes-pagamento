@@ -75,7 +75,7 @@ resource "aws_ecs_service" "ecs_service" {
   load_balancer {
     target_group_arn = data.aws_lb_target_group.lb_target_group.arn
     container_name   = "mikes-payment-container"
-    container_port   = 8080
+    container_port   = 8050
   }
 
   force_new_deployment = true
