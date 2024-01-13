@@ -8,6 +8,21 @@ variable "name" {
   default = "payment"
 }
 
+variable "cluster_name" {
+  type    = string
+  default = "mikes"
+}
+
+variable "sg_name" {
+  type    = string
+  default = "mikes"
+}
+
+variable "tg_name" {
+  type    = string
+  default = "mikes"
+}
+
 variable "subnets" {
   type    = list(string)
   default = [
