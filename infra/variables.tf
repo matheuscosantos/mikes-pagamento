@@ -5,7 +5,7 @@ variable "region" {
 
 variable "name" {
   type    = string
-  default = "mikes"
+  default = "mikes-payment"
 }
 
 variable "subnets" {
