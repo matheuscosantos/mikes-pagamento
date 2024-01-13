@@ -9,7 +9,6 @@ import software.amazon.awssdk.auth.credentials.StaticCredentialsProvider
 import software.amazon.awssdk.regions.Region
 import software.amazon.awssdk.services.sqs.SqsAsyncClient
 
-
 @Configuration
 class SQSConfig {
     @Value("\${spring.cloud.aws.credentials.access-key}")
@@ -28,9 +27,10 @@ class SQSConfig {
             .region(Region.of(region))
             .credentialsProvider(
                 StaticCredentialsProvider
-                    .create(AwsBasicCredentials.create(accessKey, secretKey))
-            )
-            .build()
+                    .create(
+                        AwsBasicCredentials.create(accessKey, secretKey),
+                    ),
+            ).build()
     }
 
     @Bean
