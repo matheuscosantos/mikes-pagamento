@@ -5,7 +5,7 @@ variable "region" {
 
 variable "name" {
   type    = string
-  default = "payment"
+  default = "mikes-pagamento"
 }
 
 variable "cluster_name" {
@@ -19,6 +19,11 @@ variable "sg_name" {
 }
 
 variable "tg_name" {
+  type    = string
+  default = "mikes"
+}
+
+variable "capacity_provider_name" {
   type    = string
   default = "mikes"
 }
