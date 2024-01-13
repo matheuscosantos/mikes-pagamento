@@ -17,12 +17,8 @@ resource "aws_iam_policy_attachment" "ecs_execution_role_ecr_policy_attachment" 
 
 # -- task definition
 
-data "aws_db_instance" "db_instance" {
-  db_instance_identifier = "payment"
-}
-
 data "aws_secretsmanager_secret" "db_credentials" {
-  name = "payment/db/db_credentials"
+  name = "mikes/db/db_credentials"
 }
 
 data "aws_secretsmanager_secret_version" "db_credentials_current" {
@@ -39,26 +35,21 @@ resource "aws_ecs_task_definition" "ecs_task_definition" {
   execution_role_arn = aws_iam_role.ecs_execution_role.arn
 
   container_definitions = templatefile("container/definitions/payment_container_definitions.json", {
-    DB_HOST     = data.aws_db_instance.db_instance.address
-    DB_PORT     = data.aws_db_instance.db_instance.port
-    DB_NAME     = data.aws_db_instance.db_instance.db_name
-    DB_USER     = local.db_credentials["username"]
-    DB_PASSWORD = local.db_credentials["password"]
   })
 }
 
 # -- service
 
 data "aws_ecs_cluster" "ecs_cluster" {
-  cluster_name = "${var.name}_cluster"
+  cluster_name = "${var.cluster_name}_cluster"
 }
 
 data "aws_security_group" "security_group" {
-  name  = "${var.name}_security_group"
+  name  = "${var.sg_name}_security_group"
 }
 
 data "aws_lb_target_group" "lb_target_group" {
-  name = "${var.name}-lb-target-group"
+  name = "${var.tg_name}-lb-target-group"
 }
 
 resource "aws_ecs_service" "ecs_service" {
