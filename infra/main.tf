@@ -65,7 +65,7 @@ resource "aws_ecs_service" "ecs_service" {
   name            = "${var.name}_service"
   cluster         = data.aws_ecs_cluster.ecs_cluster.id
   task_definition = aws_ecs_task_definition.ecs_task_definition.arn
-  desired_count = 2 // desligando recursos p/ evitar cobranças
+  desired_count = 1 // desligando recursos p/ evitar cobranças
 
   network_configuration {
     subnets = var.subnets
