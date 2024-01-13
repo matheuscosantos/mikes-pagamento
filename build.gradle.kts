@@ -45,8 +45,3 @@ tasks.bootJar {
 tasks.withType<Test> {
     useJUnitPlatform()
 }
-
-detekt {
-    config.setFrom(listOf(File(rootDir, "detekt-config.yml")))
-    buildUponDefaultConfig = true
-}
