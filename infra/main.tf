@@ -18,11 +18,11 @@ resource "aws_iam_policy_attachment" "ecs_execution_role_ecr_policy_attachment" 
 # -- task definition
 
 data "aws_db_instance" "db_instance" {
-  db_instance_identifier = "mikes_payment"
+  db_instance_identifier = "payment"
 }
 
 data "aws_secretsmanager_secret" "db_credentials" {
-  name = "mikes_payment/db/db_credentials"
+  name = "payment/db/db_credentials"
 }
 
 data "aws_secretsmanager_secret_version" "db_credentials_current" {
@@ -38,7 +38,7 @@ resource "aws_ecs_task_definition" "ecs_task_definition" {
   network_mode             = "awsvpc"
   execution_role_arn = aws_iam_role.ecs_execution_role.arn
 
-  container_definitions = templatefile("container/definitions/mikes_payment_container_definitions.json", {
+  container_definitions = templatefile("container/definitions/payment_container_definitions.json", {
     DB_HOST     = data.aws_db_instance.db_instance.address
     DB_PORT     = data.aws_db_instance.db_instance.port
     DB_NAME     = data.aws_db_instance.db_instance.db_name
@@ -74,7 +74,7 @@ resource "aws_ecs_service" "ecs_service" {
 
   load_balancer {
     target_group_arn = data.aws_lb_target_group.lb_target_group.arn
-    container_name   = "mikes-payment-container"
+    container_name   = "payment-container"
     container_port   = 8050
   }
 
