@@ -75,3 +75,13 @@ variable "db_credentials_arn" {
     default = "arn:aws:secretsmanager:us-east-2:644237782704:secret:mikes/db/db_credentials-6wQzyQ"
 
 }
+
+variable "sqs_name" {
+    type = string
+    default = "solicitar-pagamento"
+}
+
+variable "sns_name" {
+    type = string
+    default = "status-pagamento"
+}

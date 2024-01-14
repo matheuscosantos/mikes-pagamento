@@ -105,3 +105,25 @@ resource "aws_db_instance" "database" {
 data "aws_secretsmanager_secret_version" "db_credentials" {
   secret_id = var.db_credentials_arn
 }
+
+# -- SQS queue
+
+resource "aws_sqs_queue" "sqs_queue" {
+  name                      = "${var.sqs_name}"
+  delay_seconds             = 0
+  max_message_size          = 262144
+  message_retention_seconds = 345600  # 4 days
+  visibility_timeout_seconds = 30
+}
+
+# -- SNS topic
+
+resource "aws_sns_topic" "sns_topic" {
+  name = "${var.sns_name}"
+}
+
+resource "aws_sns_topic_subscription" "sns_topic_subscription" {
+  topic_arn = aws_sns_topic.sns_topic.arn
+  protocol  = "sqs"
+  endpoint  = aws_sqs_queue.sqs_queue.arn
+}
