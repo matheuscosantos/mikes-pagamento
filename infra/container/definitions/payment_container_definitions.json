@@ -11,6 +11,26 @@
       }
     ],
     "environment": [
-    ]
+      {
+        "name": "SQS_PAYMENT",
+        "value": "${SQS_PAYMENT}"
+      },
+      {
+        "name": "SNS_PAYMENT_STATUS",
+        "value": "${SNS_PAYMENT_STATUS}"
+      },
+      {
+        "name": "AWS_REGION",
+        "value": "${REGION}"
+      }
+    ],
+    "logConfiguration": {
+      "logDriver": "awslogs",
+      "options": {
+        "awslogs-group": "${LOG_GROUP_NAME}",
+        "awslogs-region": "us-east-2",
+        "awslogs-stream-prefix": "ecs"
+      }
+    }
   }
 ]

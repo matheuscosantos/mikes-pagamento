@@ -10,7 +10,7 @@ spring:
         access-key: ${AWS_ACCESS_KEY_ID}
         secret-key: ${AWS_SECRET_ACCESS_KEY}
       sqs:
-        uri: ${SQS_URL}
+        uri: ${SQS_PAYMENT}
 
 aws:
   queue:

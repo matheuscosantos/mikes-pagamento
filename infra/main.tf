@@ -29,12 +29,21 @@ locals {
   db_credentials = jsondecode(data.aws_secretsmanager_secret_version.db_credentials_current.secret_string)
 }
 
+resource "aws_cloudwatch_log_group" "ecs_log_group" {
+  name = "/ecs/${var.name}"
+}
+
 resource "aws_ecs_task_definition" "ecs_task_definition" {
   family                   = var.name
   network_mode             = "awsvpc"
   execution_role_arn = aws_iam_role.ecs_execution_role.arn
 
   container_definitions = templatefile("container/definitions/payment_container_definitions.json", {
+    NAME                      = "${var.name}-container"
+    REGION                    = var.region
+    SQS_PAYMENT               = var.sqs_payment
+    SNS_PAYMENT_STATUS        = var.sns_payment_status
+    LOG_GROUP_NAME            = aws_cloudwatch_log_group.ecs_log_group.name
   })
 }
 
@@ -84,7 +93,7 @@ resource "aws_ecs_service" "ecs_service" {
 # -- SQS queue
 
 resource "aws_sqs_queue" "sqs_queue" {
-  name                      = "${var.sqs_name}"
+  name                      = "${var.sqs_payment}"
   delay_seconds             = 0
   max_message_size          = 262144
   message_retention_seconds = 345600  # 4 days
@@ -94,7 +103,7 @@ resource "aws_sqs_queue" "sqs_queue" {
 # -- SNS topic
 
 resource "aws_sns_topic" "sns_topic" {
-  name = "${var.sns_name}"
+  name = "${var.sns_payment_status}"
 }
 
 resource "aws_sns_topic_subscription" "sns_topic_subscription" {

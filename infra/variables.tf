@@ -36,12 +36,12 @@ variable "subnets" {
   ]
 }
 
-variable "sqs_name" {
+variable "sqs_payment" {
     type = string
     default = "solicitar-pagamento"
 }
 
-variable "sns_name" {
+variable "sns_payment_status" {
     type = string
     default = "status-pagamento"
 }
