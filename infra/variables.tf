@@ -8,22 +8,7 @@ variable "name" {
   default = "mikes-pagamento"
 }
 
-variable "cluster_name" {
-  type    = string
-  default = "mikes"
-}
-
-variable "sg_name" {
-  type    = string
-  default = "mikes"
-}
-
-variable "tg_name" {
-  type    = string
-  default = "mikes"
-}
-
-variable "capacity_provider_name" {
+variable "infra_name" {
   type    = string
   default = "mikes"
 }

@@ -50,22 +50,22 @@ resource "aws_ecs_task_definition" "ecs_task_definition" {
 # -- service
 
 data "aws_ecs_cluster" "ecs_cluster" {
-  cluster_name = "${var.cluster_name}_cluster"
+  cluster_name = "${var.infra_name}_cluster"
 }
 
 data "aws_security_group" "security_group" {
-  name  = "${var.sg_name}_security_group"
+  name  = "${var.infra_name}_security_group"
 }
 
 data "aws_lb_target_group" "lb_target_group" {
-  name = "${var.tg_name}-lb-target-group"
+  name = "${var.infra_name}-lb-target-group"
 }
 
 resource "aws_ecs_service" "ecs_service" {
   name            = "${var.name}_service"
   cluster         = data.aws_ecs_cluster.ecs_cluster.id
   task_definition = aws_ecs_task_definition.ecs_task_definition.arn
-  desired_count = 1 // desligando recursos p/ evitar cobranças
+  desired_count = 1
 
   network_configuration {
     subnets = var.subnets
@@ -85,7 +85,7 @@ resource "aws_ecs_service" "ecs_service" {
   }
 
   capacity_provider_strategy {
-    capacity_provider = "${var.capacity_provider_name}_capacity_provider"
+    capacity_provider = "${var.infra_name}_capacity_provider"
     weight            = 100
   }
 }
