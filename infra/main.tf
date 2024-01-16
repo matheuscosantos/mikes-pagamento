@@ -10,26 +10,22 @@ resource "aws_iam_role" "ecs_execution_role" {
 }
 
 resource "aws_iam_role_policy_attachment" "ecs_execution_role_ecr_policy_attachment" {
-  name       = "${var.name}_ecs_execution_role_ecr_policy_attachment"
-  roles      = [aws_iam_role.ecs_execution_role.name]
+  role      = aws_iam_role.ecs_execution_role.name
   policy_arn = "arn:aws:iam::aws:policy/EC2InstanceProfileForImageBuilderECRContainerBuilds"
 }
 
 resource "aws_iam_role_policy_attachment" "ecs_execution_role_cloudwatch_policy_attachment" {
-  name       = "${var.name}_ecs_execution_role_cloudwatch_policy_attachment"
-  roles      = [aws_iam_role.ecs_execution_role.name]
+  role     = aws_iam_role.ecs_execution_role.name
   policy_arn = "arn:aws:iam::aws:policy/CloudWatchLogsFullAccess"
 }
 
 resource "aws_iam_role_policy_attachment" "ecs_execution_role_sns_policy_attachment" {
-  name       = "${var.name}_ecs_execution_role_sns_policy_attachment"
-  roles      = [aws_iam_role.ecs_execution_role.name]
+  role      = aws_iam_role.ecs_execution_role.name
   policy_arn = "arn:aws:iam::aws:policy/AmazonSNSFullAccess"
 }
 
 resource "aws_iam_role_policy_attachment" "ecs_execution_role_sqs_policy_attachment" {
-  name       = "${var.name}_ecs_execution_role_sqs_policy_attachment"
-  roles      = [aws_iam_role.ecs_execution_role.name]
+  role      = aws_iam_role.ecs_execution_role.name
   policy_arn = "arn:aws:iam::aws:policy/AmazonSQSFullAccess"
 }
 # -- task definition
