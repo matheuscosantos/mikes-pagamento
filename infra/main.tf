@@ -91,7 +91,7 @@ resource "aws_ecs_service" "ecs_service" {
 
   load_balancer {
     target_group_arn = data.aws_lb_target_group.lb_target_group.arn
-    container_name   = "payment-container"
+    container_name   = "${var.name}-container"
     container_port   = 8050
   }
 
