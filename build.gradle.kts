@@ -17,6 +17,7 @@ repositories { mavenCentral() }
 
 dependencies {
     implementation("org.springframework.boot:spring-boot-starter-web")
+    implementation("org.springframework.boot:spring-boot-starter-actuator")
 
     implementation("io.awspring.cloud:spring-cloud-aws-starter-sns:3.1.0")
     implementation("io.awspring.cloud:spring-cloud-aws-starter-sqs:3.1.0")

@@ -6,3 +6,9 @@ aws:
     payment-request: solicitar-pagamento
   topic:
     status-payment: status-pagamento
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health
