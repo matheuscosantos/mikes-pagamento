@@ -1,6 +1,6 @@
 [
   {
-    "name": "payment-container",
+    "name": "mikes-pagamento-container",
     "image": "644237782704.dkr.ecr.us-east-2.amazonaws.com/payment:latest",
     "memory": 512,
     "essential": true,
