@@ -1,22 +1,8 @@
 server:
   port: 8050
 
-spring:
-  cloud:
-    aws:
-      region:
-        static: us-east-2
-      credentials:
-        access-key: ${AWS_ACCESS_KEY_ID}
-        secret-key: ${AWS_SECRET_ACCESS_KEY}
-      sqs:
-        uri: ${SQS_PAYMENT}
-
 aws:
   queue:
     payment-request: solicitar-pagamento
   topic:
     status-payment: status-pagamento
-
-sns:
-  topicArn: arn:aws:sns:us-east-2:644237782704:status-pagamento
