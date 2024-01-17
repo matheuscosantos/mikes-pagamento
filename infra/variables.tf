@@ -30,3 +30,8 @@ variable "sns_payment_status" {
     type = string
     default = "status-pagamento"
 }
+
+variable "db_name" {
+  type    = string
+  default = "pagamento"
+}

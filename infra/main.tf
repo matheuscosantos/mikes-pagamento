@@ -52,11 +52,16 @@ resource "aws_ecs_task_definition" "ecs_task_definition" {
   execution_role_arn = aws_iam_role.ecs_execution_role.arn
 
   container_definitions = templatefile("container/definitions/payment_container_definitions.json", {
-    NAME                      = "${var.name}-container"
-    REGION                    = var.region
-    SQS_PAYMENT               = var.sqs_payment
-    SNS_PAYMENT_STATUS        = var.sns_payment_status
-    LOG_GROUP_NAME            = aws_cloudwatch_log_group.ecs_log_group.name
+    NAME                        = "${var.name}-container"
+    DB_HOST                     = data.aws_db_instance.db_instance.address
+    DB_PORT                     = data.aws_db_instance.db_instance.port
+    DB_NAME                     = var.db_name
+    DB_USER                     = local.db_credentials["username"]
+    DB_PASSWORD                 = local.db_credentials["password"]
+    REGION                      = var.region
+    SQS_PAYMENT                 = var.sqs_payment
+    SNS_PAYMENT_STATUS          = var.sns_payment_status
+    LOG_GROUP_NAME              = aws_cloudwatch_log_group.ecs_log_group.name
   })
 }
 

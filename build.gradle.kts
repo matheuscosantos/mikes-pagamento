@@ -18,6 +18,7 @@ repositories { mavenCentral() }
 dependencies {
     implementation("org.springframework.boot:spring-boot-starter-web")
     implementation("org.springframework.boot:spring-boot-starter-actuator")
+    implementation("org.springframework.boot:spring-boot-starter-data-jpa")
 
     implementation("io.awspring.cloud:spring-cloud-aws-starter-sns:3.1.0")
     implementation("io.awspring.cloud:spring-cloud-aws-starter-sqs:3.1.0")
@@ -26,6 +27,7 @@ dependencies {
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
     implementation("org.jetbrains.kotlin:kotlin-reflect")
 
+    runtimeOnly("org.postgresql:postgresql:42.6.0")
     runtimeOnly("com.zaxxer:HikariCP:5.0.1")
 
     testImplementation("org.springframework.boot:spring-boot-starter-test")
