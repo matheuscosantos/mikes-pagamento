@@ -46,6 +46,10 @@ resource "aws_cloudwatch_log_group" "ecs_log_group" {
   name = "/ecs/${var.name}"
 }
 
+data "aws_db_instance" "db_instance" {
+  db_instance_identifier = "mikes-db"
+}
+
 resource "aws_ecs_task_definition" "ecs_task_definition" {
   family                   = var.name
   network_mode             = "awsvpc"
