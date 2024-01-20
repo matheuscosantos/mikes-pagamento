@@ -1,8 +1,11 @@
 package br.com.fiap.mikes.payment.application.port.inbound.orderpayment
 
 import br.com.fiap.mikes.payment.application.core.domain.orderpayment.OrderPayment
-import br.com.fiap.mikes.payment.application.inbound.orderpayment.dto.ProcessOrderPaymentInboundRequest
+import br.com.fiap.mikes.payment.application.inbound.orderpayment.dto.NewOrderPaymentInboundRequest
+import br.com.fiap.mikes.payment.application.inbound.orderpayment.dto.UpdatedOrderPaymentInboundRequest
 
-fun interface ProcessOrderPaymentService {
-    fun execute(processOrderPaymentInboundRequest: ProcessOrderPaymentInboundRequest): Result<OrderPayment>
+interface ProcessOrderPaymentService {
+    fun create(newOrderPaymentInboundRequest: NewOrderPaymentInboundRequest): Result<OrderPayment>
+
+    fun update(updatedOrderPaymentInboundRequest: UpdatedOrderPaymentInboundRequest): Result<UpdatedOrderPaymentInboundRequest>
 }

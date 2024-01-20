@@ -1,10 +1,9 @@
 package br.com.fiap.mikes.payment.application.port.outbound.orderpayment.dto
 
 import java.time.LocalDateTime
-import java.util.*
 
-data class OrderPaymentOutboundResponse(
-    val id: UUID,
+class UpdatedOrderPaymentOutboundResponse(
+    val id: String,
     val orderId: String,
     var orderPaymentStatus: String,
     val createdAt: LocalDateTime,

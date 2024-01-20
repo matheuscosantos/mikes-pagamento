@@ -1,6 +1,5 @@
 package br.com.fiap.mikes.payment.application.inbound.orderpayment.dto
 
-data class ProcessOrderPaymentInboundRequest(
+data class NewOrderPaymentInboundRequest(
     val orderId: String,
-    val paid: Boolean,
 )

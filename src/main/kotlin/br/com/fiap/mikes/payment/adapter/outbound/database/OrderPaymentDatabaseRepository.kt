@@ -4,6 +4,7 @@ import br.com.fiap.mikes.payment.adapter.outbound.database.entity.OrderPaymentEn
 import br.com.fiap.mikes.payment.adapter.outbound.database.jpa.OrderPaymentJpaRepository
 import br.com.fiap.mikes.payment.application.core.domain.order.valueobject.OrderId
 import br.com.fiap.mikes.payment.application.core.domain.orderpayment.OrderPayment
+import br.com.fiap.mikes.payment.application.core.valueobject.OrderPaymentStatus
 import br.com.fiap.mikes.payment.application.port.outbound.orderpayment.OrderPaymentRepository
 import br.com.fiap.mikes.payment.application.port.outbound.orderpayment.dto.OrderPaymentOutboundResponse
 import org.springframework.stereotype.Repository
@@ -23,5 +24,12 @@ class OrderPaymentDatabaseRepository(
         return orderPaymentJpaRepository.findByOrderId(orderId.value)
             .map { it.toOutbound() }
             .getOrNull()
+    }
+
+    override fun updateStatusByOrderId(
+        orderId: OrderId,
+        status: OrderPaymentStatus,
+    ) {
+        orderPaymentJpaRepository.updateStatusByOrderId(orderId.value, status.value)
     }
 }

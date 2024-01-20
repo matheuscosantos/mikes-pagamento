@@ -1,12 +1,12 @@
 package br.com.fiap.mikes.payment.application.core.domain.orderpayment
 
 import br.com.fiap.mikes.payment.application.core.domain.order.valueobject.OrderId
-import br.com.fiap.mikes.payment.application.core.domain.orderpayment.valueobject.OrderPaymentId
 import br.com.fiap.mikes.payment.application.core.valueobject.OrderPaymentStatus
 import java.time.LocalDateTime
+import java.util.*
 
 class OrderPayment(
-    val id: OrderPaymentId,
+    val id: UUID,
     val orderId: OrderId,
     val orderPaymentStatus: OrderPaymentStatus,
     val createdAt: LocalDateTime,
@@ -14,13 +14,12 @@ class OrderPayment(
 ) {
     companion object {
         fun new(
-            id: OrderPaymentId,
             orderId: OrderId,
             orderPaymentStatus: OrderPaymentStatus,
             createdAt: LocalDateTime,
             updatedAt: LocalDateTime,
         ): Result<OrderPayment> {
-            return Result.success(OrderPayment(id, orderId, orderPaymentStatus, createdAt, updatedAt))
+            return Result.success(OrderPayment(UUID.randomUUID(), orderId, orderPaymentStatus, createdAt, updatedAt))
         }
     }
 
@@ -34,7 +33,7 @@ class OrderPayment(
             }
 
         return OrderPayment(
-            id,
+            UUID.randomUUID(),
             orderId,
             status,
             createdAt,
