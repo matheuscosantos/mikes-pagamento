@@ -35,3 +35,13 @@ variable "db_name" {
   type    = string
   default = "pagamento"
 }
+
+variable "ecs_alb" {
+  type    = string
+  default = "mikes-ecs-alb"
+}
+
+variable "vpc_id" {
+  type    = string
+  default = "vpc-0ffc09ae69916058b"
+}

@@ -1,10 +1,12 @@
 package br.com.fiap.mikes.payment.application.core.usecase.orderpayment
 
+import br.com.fiap.mikes.payment.adapter.outbound.database.exception.FailToSave
 import br.com.fiap.mikes.payment.adapter.outbound.messenger.sns.client.SnsOrderReceivedMessenger
 import br.com.fiap.mikes.payment.application.core.domain.exception.order.InvalidOrderIdException
 import br.com.fiap.mikes.payment.application.core.domain.exception.order.OrderPaymentAlreadyExistsException
 import br.com.fiap.mikes.payment.application.core.domain.order.valueobject.OrderId
 import br.com.fiap.mikes.payment.application.core.domain.orderpayment.OrderPayment
+import br.com.fiap.mikes.payment.application.core.usecase.exception.orderpayment.InvalidOrderPaymentStateException
 import br.com.fiap.mikes.payment.application.core.valueobject.OrderPaymentStatus
 import br.com.fiap.mikes.payment.application.inbound.orderpayment.dto.NewOrderPaymentInboundRequest
 import br.com.fiap.mikes.payment.application.inbound.orderpayment.dto.UpdatedOrderPaymentInboundRequest
@@ -25,23 +27,39 @@ class ProcessOrderPaymentUseCase(
 ) : ProcessOrderPaymentService {
     override fun create(newOrderPaymentInboundRequest: NewOrderPaymentInboundRequest): Result<OrderPayment> {
         try {
-            val orderId = OrderId.new(newOrderPaymentInboundRequest.orderId)
-            val existingOrderPayment = orderPaymentRepository.findByOrderId(orderId.getOrThrow())
+            val orderId =
+                OrderId.new(
+                    newOrderPaymentInboundRequest.orderId,
+                ).getOrElse {
+                    throw InvalidOrderIdException("Invalid orderId.")
+                }
+            val existingOrderPayment =
+                orderPaymentRepository.findByOrderId(
+                    orderId,
+                )
 
             if (existingOrderPayment != null) {
-                return Result.failure(OrderPaymentAlreadyExistsException("Payment already exists for orderId: ${orderId.getOrThrow()}"))
+                return Result.failure(
+                    OrderPaymentAlreadyExistsException(
+                        "Payment already exists for orderId: $orderId",
+                    ),
+                )
             }
 
             val newOrderPayment =
                 OrderPayment.new(
-                    orderId.getOrThrow(),
+                    orderId,
                     OrderPaymentStatus.WAITING,
                     LocalDateTime.now(),
                     LocalDateTime.now(),
                 )
 
-            val savedOrderPayment = orderPaymentRepository.save(newOrderPayment.getOrThrow())
-
+            val savedOrderPayment =
+                orderPaymentRepository.save(
+                    newOrderPayment.getOrElse {
+                        throw FailToSave("Fail to save")
+                    },
+                )
             return orderPaymentDomainMapper.new(savedOrderPayment)
         } catch (ex: InvalidOrderIdException) {
             return Result.failure(ex)
@@ -51,18 +69,34 @@ class ProcessOrderPaymentUseCase(
     }
 
     override fun update(updatedOrderPaymentInboundRequest: UpdatedOrderPaymentInboundRequest): Result<UpdatedOrderPaymentInboundRequest> {
-        try {
+        return try {
             val orderPaymentStatus =
-                OrderPaymentStatus.findByValue(updatedOrderPaymentInboundRequest.status).getOrThrow()
-            val orderId = OrderId.new(updatedOrderPaymentInboundRequest.orderId)
+                OrderPaymentStatus.findByValue(
+                    updatedOrderPaymentInboundRequest.status,
+                ).getOrElse {
+                    throw InvalidOrderPaymentStateException("Invalid status.")
+                }
 
-            orderPaymentRepository.updateStatusByOrderId(orderId.getOrThrow(), orderPaymentStatus)
+            val orderId =
+                OrderId.new(
+                    updatedOrderPaymentInboundRequest.orderId,
+                ).getOrElse {
+                    throw InvalidOrderIdException("Invalid OrderId")
+                }
 
-            snsMessenger.send(PaymentReceivedMessage(orderId.getOrThrow().value, orderPaymentStatus.value))
-
-            return Result.success(updatedOrderPaymentInboundRequest)
+            orderPaymentRepository.updateStatusByOrderId(
+                orderId,
+                orderPaymentStatus,
+            )
+            snsMessenger.send(
+                PaymentReceivedMessage(
+                    orderId.value,
+                    orderPaymentStatus.value,
+                ),
+            )
+            Result.success(updatedOrderPaymentInboundRequest)
         } catch (e: Exception) {
-            return Result.failure(OrderPaymentAlreadyExistsException("{$e})"))
+            Result.failure(OrderPaymentAlreadyExistsException("{$e})"))
         }
     }
 }

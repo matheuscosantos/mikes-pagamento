@@ -3,7 +3,7 @@ package br.com.fiap.mikes.payment.application.core.domain.orderpayment
 import br.com.fiap.mikes.payment.application.core.domain.order.valueobject.OrderId
 import br.com.fiap.mikes.payment.application.core.valueobject.OrderPaymentStatus
 import java.time.LocalDateTime
-import java.util.*
+import java.util.UUID
 
 class OrderPayment(
     val id: UUID,

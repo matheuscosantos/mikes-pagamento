@@ -79,8 +79,34 @@ data "aws_security_group" "security_group" {
   name  = "${var.infra_name}_security_group"
 }
 
-data "aws_lb_target_group" "lb_target_group" {
-  name = "${var.infra_name}-lb-target-group"
+data "aws_vpc" "vpc" {
+  id = var.vpc_id
+}
+
+data "aws_lb" "ecs_alb" {
+  name = var.ecs_alb
+}
+
+resource "aws_lb_target_group" "lb_target_group_pagamento" {
+  name     = "${var.name}-lb-tg-pagamento"
+  port     = 8050
+  protocol = "HTTP"
+  target_type = "ip"
+  vpc_id   = data.aws_vpc.vpc.id
+  health_check {
+    path = "/actuator/health"
+  }
+}
+
+resource "aws_lb_listener" "lb_listener" {
+  load_balancer_arn = data.aws_lb.ecs_alb.arn
+  port              = 8050
+  protocol          = "HTTP"
+
+  default_action {
+    type             = "forward"
+    target_group_arn = aws_lb_target_group.lb_target_group_pagamento.arn
+  }
 }
 
 resource "aws_ecs_service" "ecs_service" {
@@ -95,7 +121,7 @@ resource "aws_ecs_service" "ecs_service" {
   }
 
   load_balancer {
-    target_group_arn = data.aws_lb_target_group.lb_target_group.arn
+    target_group_arn = aws_lb_target_group.lb_target_group_pagamento.arn
     container_name   = "${var.name}-container"
     container_port   = 8050
   }
