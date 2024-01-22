@@ -64,6 +64,7 @@ resource "aws_ecs_task_definition" "ecs_task_definition" {
     DB_PASSWORD                 = local.db_credentials["password"]
     REGION                      = var.region
     SQS_PAYMENT                 = var.sqs_payment
+
     SNS_PAYMENT_STATUS          = var.sns_payment_status
     LOG_GROUP_NAME              = aws_cloudwatch_log_group.ecs_log_group.name
   })
@@ -154,8 +155,13 @@ resource "aws_sns_topic" "sns_topic" {
   name = "${var.sns_payment_status}"
 }
 
+data "aws_sns_topic" "sns_topic_pedido_recebido" {
+    name = var.sns_topic_pedido_recebido
+}
+
 resource "aws_sns_topic_subscription" "sns_topic_subscription" {
-  topic_arn = aws_sns_topic.sns_topic.arn
+  topic_arn = data.aws_sns_topic.sns_topic_pedido_recebido.arn
   protocol  = "sqs"
   endpoint  = aws_sqs_queue.sqs_queue.arn
+  raw_message_delivery = true
 }

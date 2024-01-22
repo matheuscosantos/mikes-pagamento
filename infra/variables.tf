@@ -31,6 +31,11 @@ variable "sns_payment_status" {
     default = "status-pagamento"
 }
 
+variable "sns_topic_pedido_recebido" {
+  type    = string
+  default = "pedido-recebido"
+}
+
 variable "db_name" {
   type    = string
   default = "pagamento"
