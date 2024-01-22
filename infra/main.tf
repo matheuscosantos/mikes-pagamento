@@ -141,12 +141,23 @@ resource "aws_ecs_service" "ecs_service" {
 
 # -- SQS queue
 
-resource "aws_sqs_queue" "sqs_queue" {
+data "aws_caller_identity" "current" {}
+
+resource "aws_sqs_queue" "sqs_pagamento_pedido" {
   name                      = "${var.sqs_payment}"
   delay_seconds             = 0
   max_message_size          = 262144
   message_retention_seconds = 345600  # 4 days
   visibility_timeout_seconds = 30
+}
+
+resource "aws_sqs_queue_policy" "sqs_pagamento_pedido_policy" {
+  queue_url = aws_sqs_queue.sqs_pagamento_pedido.id
+
+  policy = templatefile("iam/policy/sqs_queue_policy.json", {
+    CALLER_ARN = data.aws_caller_identity.current.arn
+    QUEUE_ARN = aws_sqs_queue.sqs_pagamento_pedido.arn
+  })
 }
 
 # -- SNS topic
@@ -162,6 +173,6 @@ data "aws_sns_topic" "sns_topic_pedido_recebido" {
 resource "aws_sns_topic_subscription" "sns_topic_subscription" {
   topic_arn = data.aws_sns_topic.sns_topic_pedido_recebido.arn
   protocol  = "sqs"
-  endpoint  = aws_sqs_queue.sqs_queue.arn
+  endpoint  = aws_sqs_queue.sqs_pagamento_pedido.arn
   raw_message_delivery = true
 }
