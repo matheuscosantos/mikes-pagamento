@@ -6,6 +6,7 @@ plugins {
     kotlin("jvm") version "1.9.21"
     kotlin("plugin.spring") version "1.9.21"
     kotlin("plugin.jpa") version "1.9.21"
+    id("jacoco")
 }
 
 group = "br.com.fiap.mikes"
@@ -30,7 +31,10 @@ dependencies {
     runtimeOnly("org.postgresql:postgresql:42.6.0")
     runtimeOnly("com.zaxxer:HikariCP:5.0.1")
 
-    testImplementation("org.springframework.boot:spring-boot-starter-test")
+    testImplementation(platform("org.junit:junit-bom:5.10.1"))
+    testImplementation("org.junit.platform:junit-platform-suite")
+    testImplementation("org.junit.jupiter:junit-jupiter")
+    testImplementation("io.mockk:mockk:1.13.9")
 }
 
 tasks.withType<KotlinCompile> {
@@ -46,4 +50,28 @@ tasks.bootJar {
 
 tasks.withType<Test> {
     useJUnitPlatform()
+    finalizedBy("jacocoTestReport")
+}
+
+jacoco {
+    toolVersion = "0.8.11"
+}
+
+tasks.jacocoTestReport {
+    dependsOn("test")
+    reports {
+        html.required = true
+        xml.required = true
+    }
+}
+
+tasks.jacocoTestCoverageVerification {
+    dependsOn("test")
+    violationRules {
+        rule {
+            element = "CLASS"
+            includes = listOf("br/com/fiap/mikes/payment/PaymentApplication*")
+            excludes = emptyList()
+        }
+    }
 }

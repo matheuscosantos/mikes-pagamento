@@ -1,7 +1,7 @@
 package br.com.fiap.mikes.payment.application.core.domain.orderpayment.valueobject
 
 import br.com.fiap.mikes.payment.application.core.domain.exception.orderpayment.InvalidOrderPaymentIdException
-import java.util.*
+import java.util.UUID
 
 @JvmInline
 value class OrderPaymentId private constructor(val value: String) {
