@@ -35,6 +35,10 @@ dependencies {
     testImplementation("org.junit.platform:junit-platform-suite")
     testImplementation("org.junit.jupiter:junit-jupiter")
     testImplementation("io.mockk:mockk:1.13.9")
+
+    testImplementation(platform("io.cucumber:cucumber-bom:7.15.0"))
+    testImplementation("io.cucumber:cucumber-java")
+    testImplementation("io.cucumber:cucumber-junit-platform-engine")
 }
 
 tasks.withType<KotlinCompile> {
@@ -50,6 +54,7 @@ tasks.bootJar {
 
 tasks.withType<Test> {
     useJUnitPlatform()
+    systemProperty("cucumber.junit-platform.naming-strategy", "long")
     finalizedBy("jacocoTestReport")
 }
 
