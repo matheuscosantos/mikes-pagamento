@@ -33,7 +33,7 @@ jobs:
         run: ./gradlew build
 
       - name: Set up SonarQube
-        uses: sonarsource/sonarcloud-github-action@v2
+        uses: sonarsource/sonarcloud-github-action@master
         with:
           organization: "matheuscosantos"
           token: ${{ secrets.SONAR_TOKEN }}
