@@ -36,14 +36,6 @@ jobs:
         uses: sonarsource/sonarcloud-github-action@master
         with:
           projectBaseDir: src # Adjust the base directory if needed
-          args: >
-            -Dsonar.organization=matheuscosantos
-            -Dsonar.projectKey=matheuscosantos_mikes-pagamento
-            -Dsonar.python.coverage.reportPaths=coverage.xml
-            -Dsonar.sources=build/libs/
-            -Dsonar.test.exclusions=test/**
-            -Dsonar.tests=test/
-            -Dsonar.verbose=true
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
