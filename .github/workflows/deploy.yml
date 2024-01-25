@@ -35,7 +35,7 @@ jobs:
       - name: Set up SonarQube
         uses: sonarsource/sonarcloud-github-action@master
         with:
-          projectBaseDir: src # Adjust the base directory if needed
+          projectBaseDir: ./ # Adjust the base directory if needed
           args: >
             -Dsonar.organization=matheuscosantos
             -Dsonar.projectKey=matheuscosantos_mikes-pagamento
