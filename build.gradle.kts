@@ -86,6 +86,9 @@ sonar {
     properties {
         property("sonar.projectKey", "matheuscosantos_mikes-pagamento")
         property("sonar.organization", "matheuscosantos")
+        property("sonar.junit.reportPaths", "build/test-results/test")
+        property("sonar.coverage.jacoco.xmlReportPaths", "build/reports/jacoco/test/jacocoTestReport.xml")
         property("sonar.host.url", "https://sonarcloud.io")
+        property("sonar.gradle.skipCompile", "true") // Skip implicit compilation
     }
 }
