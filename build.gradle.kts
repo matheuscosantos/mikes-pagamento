@@ -7,7 +7,7 @@ plugins {
     kotlin("plugin.spring") version "1.9.21"
     kotlin("plugin.jpa") version "1.9.21"
     id("jacoco")
-    id("org.sonarqube") version "3.3"
+    id("org.sonarqube") version "4.4.1.3373"
 }
 
 group = "br.com.fiap.mikes"
@@ -87,6 +87,5 @@ sonarqube {
         property("sonar.projectKey", "matheuscosantos_mikes-pagamento")
         property("sonar.organization", "matheuscosantos")
         property("sonar.host.url", "https://sonarcloud.io")
-        property("sonar.login", project.findProperty("sonarToken")?.toString() ?: "")
     }
 }
