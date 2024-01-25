@@ -40,7 +40,7 @@ jobs:
             -Dsonar.organization=matheuscosantos
             -Dsonar.projectKey=matheuscosantos_mikes-pagamento
             -Dsonar.python.coverage.reportPaths=coverage.xml
-            -Dsonar.sources=lib/
+            -Dsonar.sources=build/libs/
             -Dsonar.test.exclusions=test/**
             -Dsonar.tests=test/
             -Dsonar.verbose=true
