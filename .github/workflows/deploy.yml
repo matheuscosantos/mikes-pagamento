@@ -41,8 +41,8 @@ jobs:
             -Dsonar.projectKey=matheuscosantos_mikes-pagamento
             -Dsonar.python.coverage.reportPaths=coverage.xml
             -Dsonar.sources=lib/
-            -Dsonar.test.exclusions=tests/**
-            -Dsonar.tests=tests/
+            -Dsonar.test.exclusions=test/**
+            -Dsonar.tests=test/
             -Dsonar.verbose=true
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
