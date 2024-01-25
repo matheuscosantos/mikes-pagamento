@@ -33,11 +33,21 @@ jobs:
         run: ./gradlew build
 
       - name: Set up SonarQube
-        uses: SonarSource/sonarcloud-github-action@master
+        uses: sonarsource/sonarcloud-github-action@master
         with:
-          projectBaseDir: ./ # Adjust the base directory if needed
+          projectBaseDir: src # Adjust the base directory if needed
+          args: >
+            -Dsonar.organization=matheuscosantos
+            -Dsonar.projectKey=matheuscosantos_mikes-pagamento
+            -Dsonar.python.coverage.reportPaths=coverage.xml
+            -Dsonar.sources=lib/
+            -Dsonar.test.exclusions=tests/**
+            -Dsonar.tests=tests/
+            -Dsonar.verbose=true
         env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+
 
       - name: Analyze Project with SonarQube
         run: ./gradlew sonarqube -PsonarToken=$SONAR_TOKEN
