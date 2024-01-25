@@ -32,6 +32,16 @@ jobs:
       - name: Build Gradle Project
         run: ./gradlew build
 
+      - name: Set up SonarQube
+        uses: sonarsource/sonarcloud-github-action@v2
+        with:
+          organization: "matheuscosantos"
+          token: ${{ secrets.SONAR_TOKEN }}
+          projectBaseDir: ./ # Adjust the base directory if needed
+
+      - name: Analyze Project with SonarQube
+        run: ./gradlew sonarqube -PsonarToken=$SONAR_TOKEN
+
       - name: Authenticate with ECR
         run: aws ecr get-login-password --region us-east-2 | docker login --username AWS --password-stdin 644237782704.dkr.ecr.us-east-2.amazonaws.com
 

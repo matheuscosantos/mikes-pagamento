@@ -7,6 +7,7 @@ plugins {
     kotlin("plugin.spring") version "1.9.21"
     kotlin("plugin.jpa") version "1.9.21"
     id("jacoco")
+    id("org.sonarqube") version "3.3"
 }
 
 group = "br.com.fiap.mikes"
@@ -78,5 +79,14 @@ tasks.jacocoTestCoverageVerification {
             includes = listOf("br/com/fiap/mikes/payment/PaymentApplication*")
             excludes = emptyList()
         }
+    }
+}
+
+sonarqube {
+    properties {
+        property("sonar.projectKey", "matheuscosantos_mikes-pagamento")
+        property("sonar.organization", "matheuscosantos")
+        property("sonar.host.url", "https://sonarcloud.io")
+        property("sonar.login", project.findProperty("sonarToken")?.toString() ?: "")
     }
 }
