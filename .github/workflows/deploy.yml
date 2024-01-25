@@ -40,9 +40,8 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
 
-
       - name: Analyze Project with SonarQube
-        run: ./gradlew sonarqube -PsonarToken=$SONAR_TOKEN
+        run: ./gradlew sonar
 
       - name: Authenticate with ECR
         run: aws ecr get-login-password --region us-east-2 | docker login --username AWS --password-stdin 644237782704.dkr.ecr.us-east-2.amazonaws.com

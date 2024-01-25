@@ -82,7 +82,7 @@ tasks.jacocoTestCoverageVerification {
     }
 }
 
-sonarqube {
+sonar {
     properties {
         property("sonar.projectKey", "matheuscosantos_mikes-pagamento")
         property("sonar.organization", "matheuscosantos")
