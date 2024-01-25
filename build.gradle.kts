@@ -75,9 +75,9 @@ tasks.jacocoTestCoverageVerification {
     dependsOn("test")
     violationRules {
         rule {
-            element = "CLASS"
-            includes = listOf("br/com/fiap/mikes/payment/PaymentApplication*")
-            excludes = emptyList()
+            limit {
+                minimum = BigDecimal(0.8)
+            }
         }
     }
 }
