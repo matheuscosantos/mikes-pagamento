@@ -63,6 +63,32 @@ jacoco {
     toolVersion = "0.8.11"
 }
 
+configurations {
+    val cucumberRuntime by creating {
+        extendsFrom(
+            configurations.testImplementation.get(),
+            configurations.implementation.get(),
+            configurations.runtimeOnly.get(),
+        )
+    }
+}
+
+task("behaviorTest") {
+    dependsOn("assemble", "testClasses")
+    doLast {
+        javaexec {
+            mainClass = "io.cucumber.core.cli.Main"
+            classpath = configurations["cucumberRuntime"] + sourceSets.main.get().output + sourceSets.test.get().output
+            args =
+                listOf(
+                    "--plugin", "pretty",
+                    "--glue", "classpath:cucumber",
+                    "src/test/resources/cucumber",
+                )
+        }
+    }
+}
+
 tasks.jacocoTestReport {
     dependsOn("test")
     reports {
