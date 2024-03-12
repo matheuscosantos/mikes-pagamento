@@ -9,6 +9,8 @@
 ## 1. Introdução
 Este documento serve como uma guia de referência para o projeto Spring Boot em Kotlin relacionado a pagamentos de pedidos. O projeto é modularizado e segue as melhores práticas de desenvolvimento, utilizando o Spring Boot como framework e Kotlin como linguagem de programação.
 
+[Desenho da arquitetura](https://drive.google.com/file/d/12gofNmXk8W2QnhxiFWCI4OmvVH6Vsgun/view?usp=drive_link)
+
 ## 2. Módulo `orderpayment`
 ### 2.1. Pacote `br.com.fiap.mikes.payment.adapter.inbound.controller.orderpayment`
 Este pacote contém o controlador `OrderPaymentController` responsável por lidar com as requisições relacionadas a pagamentos de pedidos. Ele oferece um endpoint para processar webhooks de pagamento.
