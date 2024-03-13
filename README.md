@@ -88,8 +88,33 @@ class ProcessOrderPaymentUseCase(
 }
 ```
 
-## 3. Considerações Finais
+## 3. Executando
 
-Este documento fornece uma visão geral da estrutura e funcionalidades do projeto Spring Boot em Kotlin. Certifique-se de revisar a documentação de cada classe e pacote para obter informações detalhadas sobre as implementações.
+### Pré-requisitos
+- Java JDK 17 instalado
+- Docker instalado e em execução
 
-Para quaisquer dúvidas ou problemas, entre em contato com a equipe responsável pelo desenvolvimento.
+### Construa o projeto Spring Boot:
+
+```bash
+./gradlew build
+```
+
+### Crie a imagem Docker:
+
+```bash
+docker build -t payment-service .
+```
+
+### Execute o contêiner Docker:
+```bash
+docker run -p 8050:8050 payment-service
+```
+
+Agora, o serviço deve estar em execução localmente na porta 8050.
+
+### Observações
+
+Certifique-se de que as variáveis de ambiente e configurações necessárias (como credenciais de banco de dados, configurações do AWS, etc.) estão corretamente configuradas no seu ambiente local ou no Dockerfile.
+Para configurar o ambiente localmente, você precisará instalar e configurar o AWS CLI com suas credenciais.
+Este é um exemplo básico e pode ser necessário ajustar dependendo das suas necessidades e ambiente de desenvolvimento.
