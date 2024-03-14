@@ -1,92 +1,26 @@
-# mikes-pagamento
+# Mikes - Pagamento
 
-## **Índice**
-
-1. [Introdução](#1-introdução)
-2. [Módulo `orderpayment`](#2-módulo-orderpayment)
-3. [Considerações Finais](#3-considerações-finais)
-
-## 1. Introdução
-Este documento serve como uma guia de referência para o projeto Spring Boot em Kotlin relacionado a pagamentos de pedidos. O projeto é modularizado e segue as melhores práticas de desenvolvimento, utilizando o Spring Boot como framework e Kotlin como linguagem de programação.
+Esta documentação descreve a estrutura e o funcionamento da aplicação de pagamentos, destacando as principais classes e suas responsabilidades.
 
 [Desenho da arquitetura](https://drive.google.com/file/d/12gofNmXk8W2QnhxiFWCI4OmvVH6Vsgun/view?usp=drive_link)
 
-## 2. Módulo `orderpayment`
-### 2.1. Pacote `br.com.fiap.mikes.payment.adapter.inbound.controller.orderpayment`
-Este pacote contém o controlador `OrderPaymentController` responsável por lidar com as requisições relacionadas a pagamentos de pedidos. Ele oferece um endpoint para processar webhooks de pagamento.
+## 1. Controlador de Pagamentos de Pedido (OrderPaymentController)
 
-```kotlin
-@RestController
-@RequestMapping("/orders-payment")
-class OrderPaymentController(
-    private val processOrderPaymentService: ProcessOrderPaymentService,
-) {
-    @PostMapping("/webhook/process")
-    fun process(
-        @RequestBody updatedOrderPaymentInboundRequest: UpdatedOrderPaymentInboundRequest,
-    ): Result<UpdatedOrderPaymentInboundRequest> {
-        return processOrderPaymentService.update(updatedOrderPaymentInboundRequest)
-    }
-}
-```
+### Descrição
 
-## 2.2. Pacote `br.com.fiap.mikes.payment.adapter.inbound.queue`
-Este pacote contém o ouvinte de fila QueueListener, que utiliza a anotação @SqsListener para escutar mensagens da fila SQS `solicitar-pagamento`. As mensagens são processadas pelo serviço ProcessOrderPaymentService.
+O controlador OrderPaymentController é responsável por receber requisições HTTP para processamento de pagamentos de pedidos.
 
-```kotlin
-@Component
-class QueueListener(
-    val processOrderPaymentService: ProcessOrderPaymentService,
-) {
-    @SqsListener("\${aws.queue.payment-request}")
-    fun listener(message: QueueMessageDTO) {
-        processOrderPaymentService.create(
-            NewOrderPaymentInboundRequest(message.orderId),
-        )
-    }
-}
-```
+## 2. Ouvinte de Fila (QueueListener)
 
-## 2.3. Pacote `br.com.fiap.mikes.payment.adapter.outbound.database`
-Este pacote lida com a persistência de dados no banco de dados. A classe OrderPaymentDatabaseRepository implementa a interface OrderPaymentRepository para salvar e atualizar informações relacionadas a pagamentos de pedidos no banco de dados.
+### Descrição
 
-```kotlin
-@Repository
-class OrderPaymentDatabaseRepository(
-    private val orderPaymentJpaRepository: OrderPaymentJpaRepository,
-) : OrderPaymentRepository {
-    // ...
-}
-```
+O ouvinte de fila QueueListener é responsável por escutar mensagens em uma fila SQS da AWS e chamar o serviço processOrderPaymentService para criar um novo pedido de pagamento.
 
-## 2.4. Pacote `br.com.fiap.mikes.payment.adapter.outbound.messenger.sns.client`
-Este pacote contém a implementação do serviço SnsOrderReceivedMessenger, responsável por enviar mensagens para um tópico SNS (Simple Notification Service) AWS.
+## 3. Cliente do SNS para Mensagens de Pedido Recebido (SnsOrderReceivedMessenger)
 
-```kotlin
-@Service
-class SnsOrderReceivedMessenger(
-    private val snsMessenger: SnsMessenger,
-    @Value("\${aws.topic.status-payment}")
-    private val orderReceivedTopic: String,
-) : PaymentReceivedMessenger {
-    // ...
-}
-```
+### Descrição
 
-## 2.5. Pacote `br.com.fiap.mikes.payment.application.core.usecase.orderpayment`
-Este pacote contém a implementação dos casos de uso relacionados ao processamento de pagamentos de pedidos. O principal serviço é o ProcessOrderPaymentUseCase.
-
-```kotlin
-@Service
-@Transactional
-class ProcessOrderPaymentUseCase(
-    private val orderPaymentRepository: OrderPaymentRepository,
-    private val orderPaymentDomainMapper: OrderPaymentDomainMapper,
-    private val snsMessenger: SnsOrderReceivedMessenger,
-) : ProcessOrderPaymentService {
-    // ...
-}
-```
+O cliente do SNS SnsOrderReceivedMessenger é responsável por enviar mensagens para um tópico SNS da AWS, notificando sobre o recebimento de um pagamento de pedido.
 
 ## 3. Executando
 
