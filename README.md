@@ -53,6 +53,13 @@ Certifique-se de que as variáveis de ambiente e configurações necessárias (c
 Para configurar o ambiente localmente, você precisará instalar e configurar o AWS CLI com suas credenciais.
 Este é um exemplo básico e pode ser necessário ajustar dependendo das suas necessidades e ambiente de desenvolvimento.
 
+## Variáveis de ambiente
+
+É necessário adicionar as seguintes variáveis de ambiente:
+
+AWS_ACCESS_KEY_ID = {Adicionar}
+AWS_SECRET_ACCESS_KEY = {Adicionar}
+SQS_URL = Endereço da fila solicitar-pagamento na AWS
 
 ## 5 - Padrão SAGA Coreografado
 
