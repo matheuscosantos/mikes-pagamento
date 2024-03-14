@@ -21,6 +21,7 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-web")
     implementation("org.springframework.boot:spring-boot-starter-actuator")
     implementation("org.springframework.boot:spring-boot-starter-data-jpa")
+    implementation("org.springframework.boot:spring-boot-starter-security")
 
     implementation("io.awspring.cloud:spring-cloud-aws-starter-sns:3.1.0")
     implementation("io.awspring.cloud:spring-cloud-aws-starter-sqs:3.1.0")
