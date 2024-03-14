@@ -22,7 +22,13 @@ O ouvinte de fila QueueListener é responsável por escutar mensagens em uma fil
 
 O cliente do SNS SnsOrderReceivedMessenger é responsável por enviar mensagens para um tópico SNS da AWS, notificando sobre o recebimento de um pagamento de pedido.
 
-## 4. Executando
+## 4. Adicionar as variáveis de ambiente
+
+AWS_ACCESS_KEY_ID = Adicione o access key da sua conta AWS
+AWS_SECRET_ACCESS_KEY = Adicione o secret access da sua conta AWS
+SQS_URL = Adicionar endereço da fila solicitar-pagamento na AWS
+
+## 5. Executando
 
 ### Pré-requisitos
 - Java JDK 17 instalado
@@ -54,7 +60,7 @@ Para configurar o ambiente localmente, você precisará instalar e configurar o 
 Este é um exemplo básico e pode ser necessário ajustar dependendo das suas necessidades e ambiente de desenvolvimento.
 
 
-## 5 - Padrão SAGA Coreografado
+## 6. Padrão SAGA Coreografado
 
 O padrão Saga Coreografado foi utilizado no projeto pois é usado em aplicações distribuídas e microserviços para garantir a consistência em transações que envolvem múltiplos serviços. Nesse padrão, cada serviço envolvido em uma transação realiza uma parte da operação e emite eventos para indicar seu estado. Outros serviços ou um coordenador monitoram esses eventos e coordenam as operações para garantir que a transação seja concluída com sucesso ou revertida de forma consistente.
 
